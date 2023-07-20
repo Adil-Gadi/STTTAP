@@ -1,11 +1,58 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { client } from '../client';
 
-const { message } = await client.hello.query();
+// Access session from Astro.locals
+// Run db queries
 ---
 
+<script>
+	//runs on client
+	import { api } from '../api/api';
+	import { supabase } from '../auth/supabase-auth';
+
+	function login() {
+		supabase.auth
+			.signInWithPassword({
+				email: 'me@example.com',
+				password: 'password',
+			})
+			.then(() => location.reload());
+	}
+
+	function logout() {
+		supabase.auth.signOut().then(() => location.reload());
+	}
+
+	document.querySelector('#login')?.addEventListener('click', login);
+	document.querySelector('#logout')?.addEventListener('click', logout);
+
+	api.hello.query().then(({ message }) => {
+		console.log(message);
+	});
+</script>
+
 <Layout>
-	<h1>STTTAP</h1>
-	<p>{message}</p>
+	<main class="md:container md:mx-auto px-4 mt-3">
+		<h1 class="text-xl font-bold">STTTAP - Sample App</h1>
+
+		<p class="mb-3">Email: {Astro.locals.session?.data?.user?.email}</p>
+
+		{
+			!Astro.locals.loggedIn ? (
+				<button
+					class="rounded-full text-sm bg-blue-500 px-6 py-3 text-white font-semibold"
+					id="login"
+				>
+					Login
+				</button>
+			) : (
+				<button
+					class="rounded-full text-sm bg-blue-500 px-6 py-3 text-white font-semibold"
+					id="logout"
+				>
+					Logout
+				</button>
+			)
+		}
+	</main>
 </Layout>

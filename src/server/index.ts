@@ -1,8 +1,8 @@
-import { publicProcedure, router } from './trpc';
+import { protectedProcedure, publicProcedure, router } from './trpc';
 
 export const appRouter = router({
 	// ...
-	hello: publicProcedure.query(() => {
+	hello: publicProcedure.query(({ ctx }) => {
 		return {
 			message: 'Build Full-Stack Applications Fast 🔥',
 		};

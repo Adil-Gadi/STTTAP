@@ -1,7 +1,8 @@
 import { createTRPCProxyClient, httpBatchLink } from '@trpc/client';
-import type { AppRouter } from './server/index';
+import type { AppRouter } from '../server/index';
 
-export const client = createTRPCProxyClient<AppRouter>({
+// tRPC Client
+export const api = createTRPCProxyClient<AppRouter>({
 	links: [
 		httpBatchLink({
 			url: 'http://localhost:3000/trpc',
@@ -10,6 +11,12 @@ export const client = createTRPCProxyClient<AppRouter>({
 				return {
 					//   authorization: getAuthCookie(),
 				};
+			},
+			fetch(url, options) {
+				return fetch(url, {
+					...options,
+					credentials: 'include',
+				});
 			},
 		}),
 	],
