@@ -4,12 +4,12 @@
 
 STTTAP uses the following technologies -
 
--   Supabase Auth
--   TypeScript
--   tRPC
--   Tailwind
--   Astro 3.0
--   Prisma 5.0
+- Supabase Auth
+- TypeScript
+- tRPC
+- Tailwind
+- Astro
+- Prisma
 
 STTTAP is designed to build scalable full-stack applications with ease.
 
